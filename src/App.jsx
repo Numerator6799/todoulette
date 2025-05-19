@@ -11,17 +11,121 @@ function App() {
   const [newItem, setNewItem] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const { width, height } = useWindowSize()
-const wheelSize = Math.max(15, options.sort((a, b) => b.length - a.length)[0].length) * 10;
-console.log(wheelSize)
+const wheelSize = options.length ? Math.max(15, options.sort((a, b) => b.length - a.length)[0].length) * 10 : 0;
   const segColors = [
     '#EE4040', '#F0CF50', '#815CD1', '#3DA5E0',
     '#34A24F', '#F9AA1F', '#EC3F3F', '#FF9000'
   ];
 
+ const activities = [
+    "Watch a movie",
+    "Read a book",
+    "Listen to a podcast",
+    "Paint a picture",
+    "Go for a run",
+    "Try a new recipe",
+    "Play a board game",
+    "Write a short story",
+    "Do a yoga session",
+    "Learn a new language",
+    "Solve a puzzle",
+    "Take a nature walk",
+    "Knit or crochet something",
+    "Play an instrument",
+    "Stargaze at night",
+    "Try photography",
+    "Build a DIY craft",
+    "Explore a museum",
+    "Dance to your favorite songs",
+    "Meditate for relaxation",
+    "Go cycling around your neighborhood",
+    "Call or text a friend",
+    "Organize your workspace",
+    "Create a playlist",
+    "Journal your thoughts",
+    "Visit a farmers’ market",
+    "Try gardening",
+    "Bake a cake or cookies",
+    "Play video games",
+    "Learn basic coding",
+    "Research a historical event",
+    "Take an online course",
+    "Write a poem",
+    "Try calligraphy",
+    "Visit a local café",
+    "Make a scrapbook",
+    "Try woodworking",
+    "Take a nap",
+    "Join a sports club",
+    "Do a digital detox",
+    "Build a Lego creation",
+    "Sketch a comic strip",
+    "Go birdwatching",
+    "Try indoor rock climbing",
+    "Watch a documentary",
+    "Make handmade gifts",
+    "Set up a picnic",
+    "Try roller skating",
+    "Create an origami figure",
+    "Participate in a trivia game",
+    "Test out new makeup looks",
+    "Start a YouTube channel",
+    "Learn about astronomy",
+    "Write a handwritten letter",
+    "Try a virtual escape room",
+    "Experiment with science experiments",
+    "Play chess or checkers",
+    "Create a vision board",
+    "Take silly photos with friends",
+    "Explore a new hiking trail",
+    "Try a new workout routine",
+    "Play frisbee at the park",
+    "Start a travel bucket list",
+    "Design your own clothing",
+    "Cook an international dish",
+    "Rewatch childhood cartoons",
+    "Make a time capsule",
+    "Build a paper airplane race",
+    "Learn how to juggle",
+    "Write a song or lyrics",
+    "Explore urban street art",
+    "Try indoor gardening",
+    "Do charity work or volunteering",
+    "Go to a food festival",
+    "Host a game night",
+    "Learn to do magic tricks",
+    "Build a blanket fort",
+    "Try making pottery",
+    "Research family genealogy",
+    "Ride a horse",
+    "Go thrift shopping",
+    "Make homemade candles",
+    "Solve a crossword puzzle",
+    "Start a blog",
+    "Try painting with watercolors",
+    "Create a stop-motion animation",
+    "Write down your dreams",
+    "Try a martial arts class",
+    "Build a playlist based on a mood",
+    "Take an afternoon tea break",
+    "Practice deep breathing exercises",
+    "Play in a virtual reality game",
+    "Learn sign language",
+    "Try wild swimming (if safe)",
+    "Go camping in your backyard",
+    "Make a DIY face mask",
+    "Join a local book club",
+    "Learn how to sew",
+    "Watch live theater or an improv show",
+    "Try archery"
+  ]
+
   useEffect(() => {
     let storedOptions = localStorage.getItem('options');
     const parsedOptions = JSON.parse(storedOptions);
-    setOptions(parsedOptions ?? []);
+    const loadedOptions = parsedOptions ?? [];
+    setOptions(loadedOptions);
+    setNewItem(loadedOptions.join('\n'))
   }, []);
 
   useEffect(() => {
@@ -54,7 +158,7 @@ console.log(wheelSize)
           onStarted={() => setWinner(null)}
         />
         : <p>Add options to start!</p>}
-      <button className='btn bg-purple' onClick={() => setIsEditing(true)}>Edit</button>
+      <button className='btn bg-purple' onClick={() => setIsEditing(true)}>Edit (omg try the new ✨AI✨)</button>
     </div>
   }
 
@@ -69,6 +173,8 @@ console.log(wheelSize)
         })}
 
       </h1>
+      <span>Now with ✨AI✨</span>
+      <pre className='not-so-hidden-subtitle'>Just like everything else...</pre>
       {winner ? <>
         <div id="result">
           <div>
@@ -87,11 +193,19 @@ console.log(wheelSize)
       {isEditing ?
         <div className='configuration-area'>
 
+          <button className='btn flow-button' onClick={() => {
+            let generated = '';
+            for(let i = 0; i < 10; i++){
+ const randomInt = Math.floor(Math.random() * activities.length);
+    const pickedItem = activities[randomInt];
+    generated += pickedItem + '\n'
+                }
+                    setNewItem(generated);
+            
+          }}>Generate with ✨AI✨</button>
             <textarea type='text' rows={10} value={newItem} onChange={e => setNewItem(e.target.value)}></textarea>
-          
-            <button className='btn bg-orange' onClick={() => {
+            <button className='btn bg-green' onClick={() => {
               let updatedOptions = newItem.split('\n').filter(e => e.length > 0);
-              console.log(updatedOptions)
               setOptions(updatedOptions);
                localStorage.setItem('options', JSON.stringify(updatedOptions));
               setIsEditing(false);

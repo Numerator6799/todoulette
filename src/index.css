@@ -35,6 +35,7 @@ li {
   padding: 1rem;
   border-radius: 1rem;
   color: white;
+    cursor: pointer;
 }
 
 .bg-purple {
