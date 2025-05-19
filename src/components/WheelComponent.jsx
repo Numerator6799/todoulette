@@ -8,13 +8,15 @@ const WheelComponent = ({
   primaryColor = 'black',
   contrastColor = 'white',
   buttonText = 'Spin',
+  buttonFillColor = 'black',
   isOnlyOnce = true,
   size = window.innerWidth,
   upDuration = 100,
   downDuration = 1000,
   fontFamily = 'proxima-nova',
   fontSize = '1em',
-  outlineWidth = 10
+  outlineWidth = 10,
+  onStarted
 }) => {
   const randomString = () => {
     const chars =
@@ -32,6 +34,7 @@ const WheelComponent = ({
   let currentSegment = ''
   let isStarted = false
   const [isFinished, setFinished] = useState(false)
+  const [theWinner, setTheWinner] = useState(null)
   let timerHandle = 0
   const timerDelay = segments.length
   let angleCurrent = 0
@@ -46,14 +49,15 @@ const WheelComponent = ({
   const centerY = size + 20
   useEffect(() => {
     wheelInit()
-    setTimeout(() => {
-      window.scrollTo(0, 1)
-    }, 0)
-  }, [])
+  }, [segments])
+
+   useEffect(() => {
+    setTheWinner(winningSegment)
+  }, [winningSegment])
 
   const wheelInit = () => {
     initCanvas()
-    wheelDraw()
+    draw()
   }
 
   const initCanvas = () => {
@@ -70,9 +74,11 @@ const WheelComponent = ({
     }
     canvas?.addEventListener('click', spin, false)
     canvasContext = canvas?.getContext('2d')
+    console.log(canvasContext)
   }
   const spin = () => {
     isStarted = true
+    onStarted();
     if (timerHandle === 0) {
       spinStart = new Date().getTime()
       maxSpeed = Math.PI / segments.length
@@ -90,8 +96,8 @@ const WheelComponent = ({
       progress = duration / upTime
       angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2)
     } else {
-      if (winningSegment) {
-        if (currentSegment === winningSegment && frames > segments.length) {
+      if (theWinner) {
+        if (currentSegment === theWinner && frames > segments.length) {
           progress = duration / upTime
           angleDelta =
             maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2)
@@ -119,11 +125,6 @@ const WheelComponent = ({
     }
   }
 
-  const wheelDraw = () => {
-    clear()
-    drawWheel()
-    drawNeedle()
-  }
 
   const draw = () => {
     clear()
@@ -178,12 +179,12 @@ const WheelComponent = ({
     ctx.beginPath()
     ctx.arc(centerX, centerY, 50, 0, PI2, false)
     ctx.closePath()
-    ctx.fillStyle = primaryColor
+    ctx.fillStyle = buttonFillColor ?? primaryColor
     ctx.lineWidth = 10
     ctx.strokeStyle = contrastColor
     ctx.fill()
     ctx.font = 'bold 1em ' + fontFamily
-    ctx.fillStyle = contrastColor
+    ctx.fillStyle = primaryColor
     ctx.textAlign = 'center'
     ctx.fillText(buttonText, centerX, centerY + 3)
     ctx.stroke()

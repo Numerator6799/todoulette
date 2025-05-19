@@ -1,5 +1,5 @@
 {
-  "name": "my-vue-app",
+  "name": "todoulette",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,9 @@
   "dependencies": {
     "js-yaml": "^4.1.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-confetti": "^6.4.0",
+    "react-dom": "^19.1.0",
+    "react-use": "^17.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
