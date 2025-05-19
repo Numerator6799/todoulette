@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   background-color: #242424;
-color: white;
+  color: white;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,4 +23,24 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+
+li {
+  list-style-type: none;
+}
+
+.btn {
+  border: 5px solid white;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: white;
+}
+
+.bg-purple {
+  background-color: #815CD1;
+}
+
+.bg-orange{
+  background-color: #F9AA1F;
 }

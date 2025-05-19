@@ -20,11 +20,22 @@
   -webkit-text-stroke: 2px white;
 }
 
-.input-box {
-  padding: 1rem;
+.configuration-area{
+ padding: 1rem;
   background-color: #3DA5E0;
   border-radius: 1rem;
   border: 5px solid white;
+}
+
+.items-list > div{
+display: flex;
+    justify-content: space-between;
+}
+
+
+
+.input-box {
+ 
   display: flex;
   align-items: baseline;
   flex-direction: row;

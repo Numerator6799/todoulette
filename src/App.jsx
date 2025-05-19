@@ -9,6 +9,7 @@ function App() {
   const [todo, setTodo] = useState(null);
   const [winner, setWinner] = useState(null);
   const [newItem, setNewItem] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
   const { width, height } = useWindowSize()
 
   const segColors = [
@@ -38,10 +39,15 @@ function App() {
     localStorage.setItem('options', JSON.stringify(updatedOptions));
   }
 
+  function removeItem(item){
+    console.log(item)
+    setOptions(options.filter(o => o !== item))
+  }
+
   function drawWheel() {
-    if(!options.length)
-    return <p>Add options to start!</p>
-    return <WheelComponent
+    if (!options.length)
+      return <p>Add options to start!</p>
+    return <div> <WheelComponent
       segments={options}
       segColors={segColors}
       winningSegment={todo}
@@ -56,7 +62,8 @@ function App() {
       onFinished={winner => { setWinner(winner); chooseTodo(options); }}
       onStarted={() => setWinner(null)}
     />
-    { }
+      <button className='btn bg-purple' onClick={() => setIsEditing(true)}>Configure wheel</button>
+    </div>
   }
 
   return (
@@ -70,16 +77,27 @@ function App() {
         })}
 
       </h1>
-      <div className='input-box'>
-        <input type='text' value={newItem} onChange={e => setNewItem(e.target.value)}></input>
-        <button disabled={!newItem} onClick={() => {
-          addOption(newItem)
-          setNewItem('');
-        }}>Add</button>
-      </div>
+
+      {isEditing ?
+        <div className='configuration-area'>
+
+          <div className='input-box'>
+            <input type='text' value={newItem} onChange={e => setNewItem(e.target.value)}></input>
+            <button disabled={!newItem} onClick={() => {
+              addOption(newItem)
+              setNewItem('');
+            }}>add</button>
+          </div>
+          <div className='items-list'>
+            {options.map((o, i) => <div key={i}><span>{o}</span><button onClick={e => removeItem(o)}>del</button></div>)}
+          </div>
+          <button className='btn bg-orange' onClick={() => setIsEditing(false)}>Done</button>
+        </div>
+        :
+        drawWheel()
+      }
       {winner ? <>
         <div id="result">
-
           <span>You'll do:</span>
           <h3>{winner}</h3>
           <img height={"200px"} src="https://p8.itc.cn/q_70/images03/20230720/8a1585ab45064747a00b87e952ddec45.gif" />
@@ -89,7 +107,6 @@ function App() {
           height={height}
         />
       </> : null}
-      {drawWheel()}
 
     </div>
 
