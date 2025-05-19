@@ -11,7 +11,8 @@ function App() {
   const [newItem, setNewItem] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const { width, height } = useWindowSize()
-
+const wheelSize = Math.max(15, options.sort((a, b) => b.length - a.length)[0].length) * 10;
+console.log(wheelSize)
   const segColors = [
     '#EE4040', '#F0CF50', '#815CD1', '#3DA5E0',
     '#34A24F', '#F9AA1F', '#EC3F3F', '#FF9000'
@@ -33,36 +34,27 @@ function App() {
     setTodo(pickedTodo);
     console.log("next todo chosen", pickedTodo)
   }
-  function addOption(option) {
-    const updatedOptions = [...options, option];
-    setOptions(updatedOptions);
-    localStorage.setItem('options', JSON.stringify(updatedOptions));
-  }
-
-  function removeItem(item){
-    console.log(item)
-    setOptions(options.filter(o => o !== item))
-  }
 
   function drawWheel() {
-    if (!options.length)
-      return <p>Add options to start!</p>
-    return <div> <WheelComponent
-      segments={options}
-      segColors={segColors}
-      winningSegment={todo}
-      primaryColor='white'
-      contrastColor='white'
-      buttonText='Spin'
-      buttonFillColor='#242424'
-      isOnlyOnce={false}
-      size={200}
-      upDuration={100}
-      downDuration={1000}
-      onFinished={winner => { setWinner(winner); chooseTodo(options); }}
-      onStarted={() => setWinner(null)}
-    />
-      <button className='btn bg-purple' onClick={() => setIsEditing(true)}>Configure wheel</button>
+    return <div>
+      {options.length ?
+        <WheelComponent
+          segments={options}
+          segColors={segColors}
+          winningSegment={todo}
+          primaryColor='white'
+          contrastColor='white'
+          buttonText='Spin'
+          buttonFillColor='#242424'
+          isOnlyOnce={false}
+          size={wheelSize}
+          upDuration={100}
+          downDuration={1000}
+          onFinished={winner => { setWinner(winner); chooseTodo(options); }}
+          onStarted={() => setWinner(null)}
+        />
+        : <p>Add options to start!</p>}
+      <button className='btn bg-purple' onClick={() => setIsEditing(true)}>Edit</button>
     </div>
   }
 
@@ -77,36 +69,38 @@ function App() {
         })}
 
       </h1>
-
-      {isEditing ?
-        <div className='configuration-area'>
-
-          <div className='input-box'>
-            <input type='text' value={newItem} onChange={e => setNewItem(e.target.value)}></input>
-            <button disabled={!newItem} onClick={() => {
-              addOption(newItem)
-              setNewItem('');
-            }}>add</button>
-          </div>
-          <div className='items-list'>
-            {options.map((o, i) => <div key={i}><span>{o}</span><button onClick={e => removeItem(o)}>del</button></div>)}
-          </div>
-          <button className='btn bg-orange' onClick={() => setIsEditing(false)}>Done</button>
-        </div>
-        :
-        drawWheel()
-      }
       {winner ? <>
         <div id="result">
-          <span>You'll do:</span>
-          <h3>{winner}</h3>
-          <img height={"200px"} src="https://p8.itc.cn/q_70/images03/20230720/8a1585ab45064747a00b87e952ddec45.gif" />
+          <div>
+
+            <span>You'll do:</span>
+            <h3>{winner}</h3>
+            <img height={"200px"} src="https://p8.itc.cn/q_70/images03/20230720/8a1585ab45064747a00b87e952ddec45.gif" />
+          </div>
+          <button className='btn bg-green' onClick={() => setWinner(null)}>I promise I'll do it...</button>
         </div>
         <Confetti
           width={width}
           height={height}
         />
       </> : null}
+      {isEditing ?
+        <div className='configuration-area'>
+
+            <textarea type='text' rows={10} value={newItem} onChange={e => setNewItem(e.target.value)}></textarea>
+          
+            <button className='btn bg-orange' onClick={() => {
+              let updatedOptions = newItem.split('\n').filter(e => e.length > 0);
+              console.log(updatedOptions)
+              setOptions(updatedOptions);
+               localStorage.setItem('options', JSON.stringify(updatedOptions));
+              setIsEditing(false);
+              }}>Done</button>
+        </div>
+        :
+        drawWheel()
+      }
+
 
     </div>
 

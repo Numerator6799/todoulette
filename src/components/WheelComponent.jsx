@@ -74,7 +74,6 @@ const WheelComponent = ({
     }
     canvas?.addEventListener('click', spin, false)
     canvasContext = canvas?.getContext('2d')
-    console.log(canvasContext)
   }
   const spin = () => {
     isStarted = true
