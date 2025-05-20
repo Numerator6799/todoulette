@@ -20,7 +20,7 @@
 }
 
 .not-so-hidden-subtitle {
-  color: transparent
+  color: #404040
 }
 
 .configuration-area {
@@ -74,4 +74,9 @@
   100% {
     background-position: 100%;
   }
+}
+
+.footer {
+  padding: 3rem;
+  color: #303030;
 }
