@@ -18,7 +18,6 @@ function App() {
     '#34A24F', '#F9AA1F', '#EC3F3F', '#FF9000'
   ];
 
-
   useEffect(() => {
     let storedOptions = localStorage.getItem('options');
     const parsedOptions = JSON.parse(storedOptions);
@@ -35,7 +34,6 @@ function App() {
     const randomInt = Math.floor(Math.random() * options.length);
     const pickedTodo = options[randomInt];
     setTodo(pickedTodo);
-    console.log("next todo chosen", pickedTodo)
   }
 
   function drawWheel() {
@@ -57,18 +55,18 @@ function App() {
           onStarted={() => setWinner(null)}
         />
         : <p>Add options to start!</p>}
-      <button className='btn bg-purple' onClick={() => setIsEditing(true)}>Edit (omg try the new ✨AI✨)</button>
+      <button className='btn bg-purple' onClick={() => setIsEditing(true)}>Edit</button>
     </div>
   }
 
   return (
     <div>
       <ColorfulHeader text={"TODOulette"} colors={segColors} />
-      <AIDisclaimer />
+      {/* <AIDisclaimer /> */}
       {winner && <ResultModal winner={winner} onClose={() => setWinner(null)} />}
       {isEditing ?
         <div className='configuration-area'>
-          <button className='btn flow-button' onClick={() => {
+          {/* <button className='btn flow-button' onClick={() => {
             let generated = '';
             for (let i = 0; i < 10; i++) {
               const randomInt = Math.floor(Math.random() * activities.length);
@@ -77,7 +75,7 @@ function App() {
             }
             setNewItem(generated);
 
-          }}>Get from ✨AI✨</button>
+          }}>Get from ✨AI✨</button> */}
           <textarea type='text' rows={10} value={newItem} onChange={e => setNewItem(e.target.value)}></textarea>
           <button className='btn bg-green' onClick={() => {
             let updatedOptions = newItem.split('\n').filter(e => e.length > 0);
@@ -91,7 +89,7 @@ function App() {
       }
 
       <div className='footer'>
-        Made with whatever technology, I just need this space to add some padding.
+        I just need this space to add some padding.
       </div>
     </div>
 
