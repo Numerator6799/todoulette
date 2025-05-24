@@ -12,7 +12,7 @@ function App() {
   const [winner, setWinner] = useState(null);
   const [newItem, setNewItem] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const wheelSize = options.length ? Math.max(15, options.sort((a, b) => b.length - a.length)[0].length) * 10 : 0;
+  const wheelSize = options.length ? Math.max(15, options.sort((a, b) => b.length - a.length)[0].length) * 8 : 0;
   const segColors = [
     '#EE4040', '#F0CF50', '#815CD1', '#3DA5E0',
     '#34A24F', '#F9AA1F', '#EC3F3F', '#FF9000'
@@ -88,9 +88,9 @@ function App() {
         drawWheel()
       }
 
-      <div className='footer'>
+      {/* <div className='footer'>
         I just need this space to add some padding.
-      </div>
+      </div> */}
     </div>
 
 
