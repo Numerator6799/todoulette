@@ -25,3 +25,8 @@ dist-ssr
 
 # Draw.io backup files
 design/*/*.bkp
+
+obj/
+bin/
+
+appsettings.Development.json
