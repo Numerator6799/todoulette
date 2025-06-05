@@ -19,5 +19,16 @@ namespace TODOulette
 
             return selectedTask;
         }
+
+        public void Create(Roulette roulette)
+        {
+            if (roulette == null || string.IsNullOrEmpty(roulette.UserId))
+                throw new ArgumentException("Invalid roulette data");
+
+            if (_userRoulettes.ContainsKey(roulette.UserId))
+                throw new InvalidOperationException("Roulette already exists for this user");
+
+            _userRoulettes[roulette.UserId] = roulette;
+        }
     }
 }

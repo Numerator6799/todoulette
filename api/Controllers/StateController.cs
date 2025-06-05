@@ -7,7 +7,7 @@ namespace TODOulette
     [Route("api/state")]
     public class StateController : ControllerBase
     {
-        [HttpPost("ping")]
+        [HttpGet("ping")]
         public IActionResult Ping()
             => Ok("Pong");
     }
